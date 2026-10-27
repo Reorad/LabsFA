@@ -3,7 +3,7 @@
 #include "Profiler.h"
 #include <stdlib.h>
 
-
+// Structure of Node
 typedef struct NODE {
     int val;
     struct NODE *next;
@@ -17,19 +17,33 @@ NODE *create_new_node(int val){
     return new_node;
 }
 
+//Alocation 
 NODE **allocate_K_list(int k){
 
     NODE **H_K = (NODE**)malloc( (k+1) * sizeof(NODE*));
+    for(int i=0;i<=k; i++){
+        H_K[i] = NULL;
+    }
     NODE *INIT_START = create_new_node(-1);
     H_K[0] = INIT_START;
     return H_K;
 }
 
+// Useless tbh but maybe could add it in future
 void append_to_K_list(NODE **H_K, NODE *List, int K_indx){
     H_K[K_indx] = List;
 }
 
+// Delocate 
 void dealocate_K_list(NODE **H_K, int k){
+
+    for(int i=0;i<=k;i++){
+        while(H_K[i]!=NULL){
+            NODE *temp = H_K[i];
+            H_K[i] = H_K[i]->next;
+            free(temp);
+        }
+    }
 
     for(int i=0; i<=k;i++){
         free(H_K[i]);
@@ -37,22 +51,17 @@ void dealocate_K_list(NODE **H_K, int k){
     free (H_K);
 }
 
-void free_lists(NODE **H_K, int k ){
-
+void dealocate_list(NODE *head, int k){
     for(int i=0;i<=k;i++){
-        if(H_K[i] != NULL){
-            while(H_K[i]!=NULL){
-                NODE *temp = H_K[i];
-                H_K[i] = H_K[i]->next;
-                free(temp);
-            }
+        while(head!=NULL){
+            NODE *temp = head;
+            head = head->next;
+            free(temp);
         }
     }
-    
-
 }
 
-void generate_K_random_List(NODE **H_K, int n, int k){
+/* void generate_K_random_List(NODE **H_K, int n, int k){
 
     // n -> elements have to split between k lists
     int *arr = (int*)malloc( n * sizeof(int));
@@ -88,6 +97,48 @@ void generate_K_random_List(NODE **H_K, int n, int k){
     }
         
     free(arr);
+} */
+
+void generate_K_random_List(NODE **H_K, int n, int k){
+
+    // will change into n vectors of size K 
+   
+    for(int i = 1;i<=k;i++){
+        int *arr_init=(int*)malloc(k * sizeof(int));
+        FillRandomArray(arr_init, k, 10, 100, false, ASCENDING);
+        NODE *temp = create_new_node(arr_init[0]);
+        H_K[i] = temp;
+        free(arr_init);
+    }
+    n-=k;
+    for(int i=1; i<=k;i++){
+        if(n>0){
+            int rand_n = 1 + rand() % n; // l + rand() %(r-l+1) 
+            if(i == k)
+                rand_n = n;
+            int *arr_new=(int*)malloc(rand_n * sizeof(int));
+            FillRandomArray(arr_new, rand_n, 101,1000, false, ASCENDING);
+            
+            NODE *T = H_K[i]; // Head
+            for(int j=0;j<rand_n;j++){
+                NODE *temp = create_new_node(arr_new[j]);
+                H_K[i] -> next = temp;
+                H_K[i] = H_K[i]->next;
+            }
+            H_K[i] = T; // back to HEAD
+            n-= rand_n;
+            free(arr_new);
+        }       
+    }
+}
+
+int get_size_of_List(NODE *Head){
+    int size = 0;
+    while(Head != NULL){
+        size++;
+        Head=Head->next;
+    }
+    return size;
 }
 
 void print_k_lists(NODE **H_K, int k){
@@ -100,7 +151,7 @@ void print_k_lists(NODE **H_K, int k){
             H_K[i] = H_K[i]->next;
         }
         H_K[i]=T;
-        printf("\n");
+        printf("of size %d \n", get_size_of_List(H_K[i]));
 
     }
     
