@@ -61,44 +61,6 @@ void dealocate_list(NODE *head, int k){
     }
 }
 
-/* void generate_K_random_List(NODE **H_K, int n, int k){
-
-    // n -> elements have to split between k lists
-    int *arr = (int*)malloc( n * sizeof(int));
-    FillRandomArray(arr, n, 10,25000, false, ASCENDING);
-
-    // 1->k lists will take first k elemetns
-    for(int i = 1;i<=k;i++){
-        int j = i-1;
-        NODE *temp = create_new_node(arr[j]);
-        H_K[i] = temp;
-    }
-    memmove(arr , arr + k, (n - k ) * sizeof(int));
-    n -= k ;  
-    for(int i=1; i<=k;i++){
-        if(n>0){
-            int rand_n = 1 + rand() % n; 
-
-            // int *arr_new =(int*)malloc
-            
-            NODE *T = H_K[i]; // tail
-            for(int j=0;j<rand_n;j++){
-                NODE *temp = create_new_node(arr[j]);
-                H_K[i] -> next = temp;
-                H_K[i] = H_K[i]->next;
-            }
-            H_K[i] = T; // back to tail
-
-            // shift reamining elements back
-            memmove(arr, arr+rand_n, (n-rand_n)*sizeof(int));
-            n-= rand_n;
-        }
-            
-    }
-        
-    free(arr);
-} */
-
 void generate_K_random_List(NODE **H_K, int n, int k){
 
     // will change into n vectors of size K 

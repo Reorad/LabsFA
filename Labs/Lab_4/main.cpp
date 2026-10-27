@@ -11,11 +11,8 @@ Profiler prf("K1 = 5");
 NODE *Merge_K(NODE **H_K, int n, int k, Operation *ass , Operation *comp ){
 
     build_heap_bottom_up(H_K,k, ass, comp);
-
     NODE *Head = NULL;
-    
 
-    int indx = 0;
     while(k>0){
         if(H_K[1] != NULL){
             NODE *temp = create_new_node(H_K[1]->val);
@@ -26,9 +23,6 @@ NODE *Merge_K(NODE **H_K, int n, int k, Operation *ass , Operation *comp ){
         }
         
         NODE *Temp = H_K[1];
-        if(comp != NULL)
-            comp->count();
-
         if(H_K[1] != NULL){
             if(ass != NULL)
                 ass->count();
@@ -50,6 +44,42 @@ NODE *Merge_K(NODE **H_K, int n, int k, Operation *ass , Operation *comp ){
     return Head;
 
 }
+
+// In lab we discuseed with arrays 
+/*int *Merge_K_in_lab(NODE **H_K, int n, int k, Operation *ass , Operation *comp){
+    build_heap_bottom_up(H_K,k, ass, comp);
+
+    int indx=0;
+    int *arr =(int*)malloc(n * sizeof(int));
+    while(k>0){
+        if(H_K[1] != NULL){
+            arr[indx] = H_K[1]->val;
+            indx++;
+            if(ass != NULL)
+                ass->count();
+        }
+        
+        NODE *Temp = H_K[1];
+        if(H_K[1] != NULL){
+            if(ass != NULL)
+                ass->count();
+            H_K[1]=H_K[1]->next;
+        }
+        else{
+            if(ass != NULL)
+                ass->count(3);
+            NODE *aux = H_K[1];
+            H_K[1] = H_K[k];
+            H_K[k] = aux;
+            k--;
+        }
+        sink(H_K,1,k, ass, comp);
+        free(Temp);
+
+    }
+
+    return arr;
+}*/
 
 void Average_case(int k){
     const int TEST = 1000;
@@ -100,7 +130,7 @@ void Average_case(int k){
 
 void Avg_K_var(){
     
-    const int TEST = 1000;
+    const int TEST = 10000;
     int n = 10000;
     for(int k = 10; k<= 500; k+=10){
         Operation ass = prf.createOperation("Assigments K list", k);
@@ -115,7 +145,7 @@ void Avg_K_var(){
             dealocate_K_list(k_list,k);
 
         }
-
+        printf("Current k %d It passed 10k tests \n", k);
     }
 
     prf.divideValues("Assigments K list", TEST);
