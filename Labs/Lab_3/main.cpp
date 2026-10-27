@@ -245,12 +245,17 @@ void QuickSort_Comparisons(){
     prf.addSeries(Quick_Sort_Best_Total, Quick_Sort_Best_Assign, Quick_Sort_Best_Comp);
     prf.addSeries(Quick_Sort_Worst_Total, Quick_Sort_Worst_Assign, Quick_Sort_Worst_Comp); 
 
+
+
     prf.createGroup("Total QuickSorts", Quick_Sort_Average_Total, Quick_Sort_Best_Total, Quick_Sort_Worst_Total);
     prf.createGroup("Assigments QuickSorts", Quick_Sort_Average_Assign, Quick_Sort_Best_Assign, Quick_Sort_Worst_Assign);
     prf.createGroup("Comparisons QuickSorts", Quick_Sort_Average_Comp, Quick_Sort_Best_Comp, Quick_Sort_Worst_Comp);
-    
-    prf.createGroup("Total Quick AVG BEST", Quick_Sort_Average_Total, Quick_Sort_Best_Total);
 
+    prf.createGroup("Total Quick Average vs BEST", Quick_Sort_Average_Total, Quick_Sort_Best_Total);
+
+    prf.createGroup("Worst QuickSort Operations", Quick_Sort_Worst_Total);
+    prf.createGroup("Best QuickSort Operations", Quick_Sort_Best_Total);
+    prf.createGroup("Average QuickSort", Quick_Sort_Average_Total);
 
 }
 
@@ -319,7 +324,7 @@ void QuickSort_Hybrid_DIESEL_ELECTRIC(int *arr, int l, int r, int Threshold){
     
 }
 
-// Threshold Value after evaluation is around 20 
+// Threshold Value after evaluation is around 10
 
 void Threshold_Average(){
 
