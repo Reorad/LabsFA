@@ -12,14 +12,20 @@ NODE *Merge_K(NODE **H_K, int n, int k, Operation *ass , Operation *comp ){
 
     build_heap_bottom_up(H_K,k, ass, comp);
     NODE *Head = NULL;
+    NODE *crt = Head;
 
     while(k>0){
         if(H_K[1] != NULL){
             NODE *temp = create_new_node(H_K[1]->val);
+
+            if(Head == NULL)
+                Head = temp;
+            else
+                crt->next = temp;
+            crt = temp;
+
             if(ass != NULL)
                 ass->count();
-            temp->next = Head;     
-            Head = temp;
         }
         
         NODE *Temp = H_K[1];
@@ -166,7 +172,7 @@ void Demo(){
     // Heap builded
     build_heap_bottom_up(H_K, k, NULL, NULL);
     // print_Heap(H_K, k);
-    printf("List with n elements decreasing from K list merged : ");
+    printf("List with n elements increasing from K list merged : ");
     NODE *List = Merge_K(H_K, n, k, NULL, NULL);
     NODE *crt = List;
     while(crt!= NULL){
